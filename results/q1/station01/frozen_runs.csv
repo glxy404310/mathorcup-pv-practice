@@ -1,0 +1,3 @@
+﻿run_id,start_local,end_local,points,masked_repeated_points,anchor_source_csv_row,last_source_csv_row,constant_power_mw,constant_local_ghi_wm2,deep_night_points,nwp_ghi_distinct_values
+15385,2018-12-08T14:00:00+08:00,2018-12-09T14:30:00+08:00,99,98,15418,15516,15.52201,452.200012,54,41
+32915,2019-06-10T10:15:00+08:00,2019-06-10T20:15:00+08:00,41,40,33067,33107,14.03019,837.799988,1,39
