@@ -108,3 +108,15 @@ python src/q1_check_data.py
 - `monthly_daylight_deviation.csv`：实际与基准晴空参考的白昼偏差，不是预测误差。
 
 三张图保存在`figures/q1/`：`station01_monthly_integral.png`、`station01_seasonal_diurnal.png`、`station01_daylight_fluctuation.png`。
+
+## 第一问，步骤5：生成正文审阅稿
+
+```bash
+.venv/bin/python src/build_q1_draft.py
+```
+
+根据已有结果表生成`paper/第一问_正文初稿.md`，并同步更新`paper/论文骨架.md`的第一问章节；不会修改其他问题章节。数字索引保存在`results/q1/station01/q1_evidence_index.csv`，输入文件与稿件哈希、未决项保存在`q1_draft_manifest.json`。
+
+正文含数据口径、晴空模型、月度和日内结果、实际/参考偏差、短时波动、参数敏感性、结论与局限。第一问仍待A、C复核，不表示已经核实真实AC/DC、测量区间、设备参数或异常原因。临时Q1引用编号应在合并全文时统一。
+
+此命令会重新生成第一问文字；人工修改前保存副本，或同步修改生成脚本，避免下次重跑覆盖编辑内容。
