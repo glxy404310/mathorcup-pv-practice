@@ -1,0 +1,81 @@
+{
+  "model_version": "q1-reference-v1",
+  "assumptions": {
+    "version": "q1-reference-v1",
+    "station": "station01",
+    "altitude_m_assumed": 0,
+    "tilt_deg": 33,
+    "azimuth_deg": 180,
+    "clear_sky_model": "ineichen",
+    "transposition_model": "isotropic",
+    "albedo_assumed": 0.25,
+    "cell_temperature_reference_c": 25,
+    "ac_limit_mw_assumed": 20,
+    "inverter_nominal_efficiency_assumed": 0.96,
+    "extra_loss_fraction_scenarios": [
+      0,
+      0.1,
+      0.2
+    ],
+    "altitude_sensitivity_m_assumed": 200,
+    "plot_day_local": "2018-08-25",
+    "status": "用户确认仅有ZIP，允许采用明确记录的简化假设；所有假设均不是已核实电站参数",
+    "limits": [
+      "海拔0m及敏感性200m均为假设，不是站点真实海拔。",
+      "将实测power按交流输出理解、交流限制暂设20MW，真实AC/DC口径未确认。",
+      "逆变器96%为PVWatts模型默认额定效率假设，不是TC500KH实测效率。",
+      "固定组件温度25摄氏度，仅用于参考工况；现场气温不是组件温度。",
+      "把板面辐照近似为有效辐照，忽略入射角、光谱、遮挡等细节。",
+      "额外损耗0%、10%、20%是敏感性情景，均未通过实测功率拟合。",
+      "晴空模型采用pvlib内置气候浑浊度资料，不是逐时现场大气状态。",
+      "把时间戳当作采样时刻进行点值对齐；未确认区间平均、区间头尾等测量口径。",
+      "参考曲线不是任何天气下都成立的严格发电上限，也不是未来功率预测。"
+    ]
+  },
+  "cleaned_data_sha256": "c881572ac3054039e463a0bd3cc4f0694421038823473ad9995f14945503ee5b",
+  "source_zip_sha256": "0f726b42235bf99a2c118a3cb7544722150489b01af3a2853a7c9778b538883e",
+  "assumptions_sha256": "fa480c89b9d36bb11a52182eb19524f949c24d03f6baae47fd0f026625af8fcd",
+  "pvlib_version": "0.16.1",
+  "rows": 33408,
+  "panel_number": 74000,
+  "panel_pmax_wp": 270.0,
+  "derived_dc_capacity_mwp": 19.98,
+  "assumed_ac_limit_mw": 20,
+  "common_daylight_points": 16520,
+  "scenarios": [
+    {
+      "scenario": "reference_ac_loss0_mw",
+      "common_daylight_points": 16520,
+      "reference_peak_mw": 19.246240966859943,
+      "mean_actual_minus_reference_mw": -3.167637393926059,
+      "mae_to_reference_mw": 3.3636675627590624,
+      "actual_exceeds_reference_points": 3091
+    },
+    {
+      "scenario": "reference_ac_loss10_mw",
+      "common_daylight_points": 16520,
+      "reference_peak_mw": 17.33737072797964,
+      "mean_actual_minus_reference_mw": -2.119038420645508,
+      "mae_to_reference_mw": 2.8559187173504603,
+      "actual_exceeds_reference_points": 5663
+    },
+    {
+      "scenario": "reference_ac_loss20_mw",
+      "common_daylight_points": 16520,
+      "reference_peak_mw": 15.422278637493289,
+      "mean_actual_minus_reference_mw": -1.0679905126034168,
+      "mae_to_reference_mw": 2.708230209684704,
+      "actual_exceeds_reference_points": 7819
+    },
+    {
+      "scenario": "reference_ac_altitude200_loss0_mw",
+      "common_daylight_points": 16520,
+      "reference_peak_mw": 19.361160213888642,
+      "mean_actual_minus_reference_mw": -3.2103587422156186,
+      "mae_to_reference_mw": 3.3949335948891117,
+      "actual_exceeds_reference_points": 3032
+    }
+  ],
+  "comparison_is_forecast_evaluation": false,
+  "no_parameters_fitted_from_power": true
+}
