@@ -1,0 +1,63 @@
+{
+  "analysis_version": "q1-characteristics-v1",
+  "rows": 33408,
+  "cleaned_data_sha256": "c881572ac3054039e463a0bd3cc4f0694421038823473ad9995f14945503ee5b",
+  "reference_data_sha256": "8be0d8cb238a2d7ceee356f71d274b52b755d937938d90c2a1bff04464734388",
+  "reference_model_version": "q1-reference-v1",
+  "observed_days": 348,
+  "complete_power_days": 345,
+  "daylight_power_pairs": 16172,
+  "daylight_weather_power_pairs": 16172,
+  "median_abs_15min_change_mw": 0.6748700000000007,
+  "p95_abs_15min_change_mw": 3.56970945,
+  "max_abs_15min_change_mw": 15.397692000000001,
+  "power_irradiance_change_correlation": 0.7831047042594288,
+  "energy_method": "每个完整本地日的96个采样功率求和×0.25h；矩形积分近似，不宣称精确实测电量",
+  "monthly_highest": {
+    "year_month": "2019-05",
+    "calendar_days": 31,
+    "observed_days": 31,
+    "complete_power_days": 31,
+    "incomplete_power_days": 0,
+    "mean_daily_integral_estimate_mwh": 117.93808987903225,
+    "median_daily_integral_estimate_mwh": 122.182527,
+    "p10_daily_integral_estimate_mwh": 88.74094099999999,
+    "p90_daily_integral_estimate_mwh": 139.56041625,
+    "reference_mean_daily_integral_same_days_mwh": 138.9176852117938,
+    "raw_mean_daily_integral_all_observed_days_mwh": 117.93808987903225,
+    "partial_calendar_month": false
+  },
+  "monthly_lowest": {
+    "year_month": "2018-11",
+    "calendar_days": 30,
+    "observed_days": 30,
+    "complete_power_days": 30,
+    "incomplete_power_days": 0,
+    "mean_daily_integral_estimate_mwh": 61.715515700000005,
+    "median_daily_integral_estimate_mwh": 64.565507875,
+    "p10_daily_integral_estimate_mwh": 26.170298400000004,
+    "p90_daily_integral_estimate_mwh": 86.38822385,
+    "reference_mean_daily_integral_same_days_mwh": 106.47733157404008,
+    "raw_mean_daily_integral_all_observed_days_mwh": 61.715515700000005,
+    "partial_calendar_month": false
+  },
+  "largest_change": {
+    "source_csv_row": "26171",
+    "time_local": "2019-03-30 14:15:00+08:00",
+    "power_clean": "4.1912970000000005",
+    "lmd_totalirrad_clean": "237.5",
+    "power_change_15min_mw": "-15.397692000000001",
+    "irradiance_change_15min_wm2": "-684.5",
+    "valid_power_pair": "True",
+    "both_points_daylight": "True",
+    "valid_daylight_weather_power_pair": "True",
+    "abs_change_mw": "15.397692000000001"
+  },
+  "limits": [
+    "功率采样与时间戳区间口径仍未确认，电量为积分估计",
+    "2019年6月只覆盖1—13日，夏季曲线合并跨年且不完整观测",
+    "参考功率参数含明确假设；实际/参考差异不是预测误差或唯一故障证据",
+    "保留的可疑零功率、近地平线正功率和持值首点仍可能影响统计",
+    "月度与季节均为描述性比较，没有对天气、设备状态和采样日期作因果控制"
+  ]
+}

@@ -1,0 +1,6 @@
+﻿source_csv_row,time_local,power_clean,lmd_totalirrad_clean,power_change_15min_mw,irradiance_change_15min_wm2,valid_power_pair,both_points_daylight,valid_daylight_weather_power_pair,abs_change_mw
+17231,2018-12-27 11:15:00+08:00,0.0,470.700012,-14.45642,28.80001799999991,True,True,True,14.45642
+11004,2018-10-23 14:30:00+08:00,0.0,486.700012,-13.79931,-42.899963999999954,True,True,True,13.79931
+24516,2019-03-13 08:30:00+08:00,0.0,389.200012,-8.311555,57.60000600000001,True,True,True,8.311555
+17237,2018-12-27 12:45:00+08:00,0.0,496.5,0.0,16.899994000000106,True,True,True,0.0
+11103,2018-10-24 15:15:00+08:00,0.0,304.100006,0.0,-47.60000600000001,True,True,True,0.0

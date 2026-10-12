@@ -74,3 +74,37 @@ python src/q1_check_data.py
 ```bash
 .venv/bin/python -m unittest discover -s tests -v
 ```
+
+## 第一问，步骤3：假设工况的晴空参考功率
+
+```bash
+.venv/bin/python src/q1_reference_power.py
+```
+
+参数与假设保存在`docs/q1_reference_assumptions.json`；计算口径、公式、来源与局限见`docs/第一问_参考功率方案.md`。
+
+利用真实坐标、朝南33°倾角和74000块270 Wp组件，得到19.98 MWp直流额定容量。第一版固定组件温度25°C，采用Ineichen晴空辐照、isotropic板面转换、PVWatts逆变器模型。交流限制20 MW、海拔0米、额定效率96%均为明确记录的假设；额外损耗0%、10%、20%及海拔200米只作敏感性情景，没有使用实测功率拟合。
+
+输出`results/q1/station01/reference_power.csv`、`reference_sensitivity.csv`、`reference_summary.json`和`figures/q1/station01_reference_day.png`。MAE等描述实际与物理参考的偏差，不是日前预测评估；参考不是严格发电上限。本步不计算日发电量，功率采样口径仍待确认。
+
+角色B可按`docs/角色B_第一问学习记录.md`自行复现、解释核心口径并记录读图发现。
+
+## 第一问，步骤4：月度、日内与15分钟波动
+
+```bash
+.venv/bin/python src/q1_characteristics.py
+```
+
+脚本校验参考曲线与清洗数据版本一致，月度和日内曲线统一使用完整96点功率日。日发电量暂按`Σ采样功率×0.25小时`作矩形积分估计，注明功率采样口径未确认；缺失日不补零、不作为完整日。季节分组采用3—5月春、6—8月夏、9—11月秋、12—2月冬；当前夏季含2018年7/8月和2019年6月1—13日，不是完整连续夏季。
+
+所有变化均要求相邻时间确实相差15分钟、两个值有效；波动图要求两端太阳高度角均>0。辐照/功率变化只作相关性比较，不据此认定唯一原因。
+
+输出保存在`results/q1/station01/`：
+
+- `特性分析摘要.md`、`characteristics_summary.json`：口径、观察、数量、哈希与局限。
+- `daily_characteristics.csv`、`monthly_characteristics.csv`：逐日积分估计、有效天数与月度分布。
+- `seasonal_characteristics.csv`、`seasonal_diurnal_profiles.csv`：季节分组与各时刻平均、分位数和样本数。
+- `continuous_15min_changes.csv`、`largest_daylight_changes.csv`：连续变化及最大变化时段。
+- `monthly_daylight_deviation.csv`：实际与基准晴空参考的白昼偏差，不是预测误差。
+
+三张图保存在`figures/q1/`：`station01_monthly_integral.png`、`station01_seasonal_diurnal.png`、`station01_daylight_fluctuation.png`。
