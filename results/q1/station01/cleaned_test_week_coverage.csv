@@ -1,0 +1,5 @@
+﻿start_local,end_local,expected_points,observed_unique_points,missing_points,complete_time_grid,invalid_power_points_after_cleaning,review_points
+2018-08-25T00:00:00+08:00,2018-08-31T23:45:00+08:00,672,672,0,True,0,0
+2018-11-24T00:00:00+08:00,2018-11-30T23:45:00+08:00,672,672,0,True,0,0
+2019-02-22T00:00:00+08:00,2019-02-28T23:45:00+08:00,672,672,0,True,0,0
+2019-05-25T00:00:00+08:00,2019-05-31T23:45:00+08:00,672,672,0,True,0,0

@@ -1,0 +1,29 @@
+{
+  "rule_version": "q1-station01-v1",
+  "source_sha256": "0f726b42235bf99a2c118a3cb7544722150489b01af3a2853a7c9778b538883e",
+  "rules_sha256": "cf3f6cc49860adeb58c4a25a29296143da14bdcabf61f7c2a40cfbc7ce8af2d9",
+  "rows": 33408,
+  "source_columns_unchanged": true,
+  "nwp_columns_unchanged": true,
+  "candidate_frozen_runs": 2,
+  "candidate_frozen_points": 140,
+  "masked_frozen_repeat_points": 138,
+  "anchor_points_retained_for_review": 2,
+  "modified_cells": 966,
+  "invalid_power_points": 138,
+  "valid_power_points": 33270,
+  "complete_power_days": 345,
+  "incomplete_power_days": 3,
+  "day_zero_flags_retained": 65,
+  "remaining_night_positive_power_points": 6,
+  "remaining_deep_night_positive_power_points": 0,
+  "processed_file": "data/processed/station01_q1_clean.csv",
+  "figure": "figures/q1/station01_frozen_review.png",
+  "limits": [
+    "这是第一问的离线质量复查规则，不能声称起报时可实时发现整段持值，也不能把事后标记作为预测输入。",
+    "规则根据当前station01证据制定，未证明适用于其他站点。",
+    "持值表明数据可疑，未确认真实采集故障或填补原因。",
+    "持值首点保留是工作假设，不表示其已获独立验证。",
+    "功率区间口径、AC/DC口径和海拔尚未确认；海拔暂设0米仅用于昼夜筛查。"
+  ]
+}

@@ -46,3 +46,31 @@ python src/q1_check_data.py
 同一站点重跑会覆盖该站点的派生检查结果和诊断图，原始ZIP保持不变。可疑值只作标记，不自动删除、归零或裁剪；NWP发布时间尚未确认，不能由本步结果宣称已验证真实日前预测。数据来源与待确认口径见`docs/data_sources.md`。
 
 已安装的数学建模辅助技能、来源版本及使用边界见`docs/技能安装记录.md`。
+
+## 第一问，步骤2：复查持值与第一版清洗
+
+```bash
+.venv/bin/python src/q1_clean_data.py
+```
+
+规则保存在`docs/q1_cleaning_rules.json`。只有连续至少4个15分钟采样点的功率及六项现场气象量完全相同、且该段含深夜正功率与正辐照时，才标为可疑持值段。首点保留待复查，后续重复点在七项`*_clean`列中设为缺失。白昼有辐照但零功率、近地平线小正功率继续保留并标记；不填补、不归零、不裁剪。
+
+输出：
+
+- `data/processed/station01_q1_clean.csv`：保留原始列、全部时间点、CSV原始行号，以及清洗列和复查标记。
+- `results/q1/station01/清洗摘要.md`、`cleaning_summary.json`：规则、处理数量、局限与输入/规则哈希。
+- `results/q1/station01/frozen_runs.csv`：可疑持值段及边界。
+- `results/q1/station01/cleaning_log.csv`：逐值原值、清洗值和原因。
+- `results/q1/station01/cleaned_daily_coverage.csv`：每日有效功率点数，后续月度比较需要据此筛选完整日。
+- `results/q1/station01/cleaned_test_week_coverage.csv`：原测试周时间覆盖和清洗后有效功率检查。
+- `figures/q1/station01_frozen_review.png`：持值段原始/清洗列对照图。
+
+第一问统计使用`power_clean`，不使用原始`power`列冒充清洗结果。`valid_power_for_q1`只表示通过当前基础规则，不表示全部物理口径已经验证；`needs_review`可与其同时为真。缺失点不补零，不完整日不直接作为完整日发电量比较。
+
+此规则使用整段序列进行离线质量复查，不能把事后标记作为日前预测输入，也不能宣称起报时已知道未来段会持值。后续真实回测需要按实际可用时刻处理质量标记。
+
+清洗边界验证：
+
+```bash
+.venv/bin/python -m unittest discover -s tests -v
+```
