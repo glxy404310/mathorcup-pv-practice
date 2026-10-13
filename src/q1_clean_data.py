@@ -12,7 +12,7 @@ import numpy as np
 import pandas as pd
 import pvlib
 
-from q1_check_data import ROOT, STEP, UNITS, read_station, save_csv, test_week_coverage
+from q1_check_data import ROOT, STEP, UNITS, source_sha256, read_station, save_csv, test_week_coverage
 
 
 def find_frozen_runs(data, rules):
@@ -133,8 +133,8 @@ def plot_review(data, runs, path):
         axes[0, column].set_title(f"{start:%Y-%m-%d} — {(stop - STEP):%m-%d}")
     axes[0, 0].set_ylabel("功率（MW）" if chinese else "Power (MW)")
     axes[1, 0].set_ylabel("辐照度（W/m²）" if chinese else "Irradiance (W/m²)")
-    fig.suptitle("station01 多字段持值复查与第一版清洗（北京时间）" if chinese else
-                 "station01: frozen local data review and first cleaning (Asia/Shanghai)", fontsize=15)
+    fig.suptitle(f"{path.stem.removesuffix('_frozen_review')} 多字段持值复查与第一版清洗（北京时间）" if chinese else
+                 f"{path.stem.removesuffix('_frozen_review')}: frozen local data review and first cleaning (Asia/Shanghai)", fontsize=15)
     fig.text(0.06, 0.018, "灰色为整段持值候选；首点保留待复查，后续重复值设为缺失，没有插值或补零。" if chinese else
              "Grey marks candidate frozen runs; first sample retained for review; repeated values masked, not filled.", fontsize=9)
     fig.tight_layout(rect=(0, 0.065, 1, 0.95))
@@ -150,7 +150,7 @@ def main():
     rules = json.loads(args.rules.read_text(encoding="utf-8"))
     if rules["frozen_min_points"] < 2 or rules["power_tolerance_mw"] < 0:
         raise ValueError("持值最少点数应>=2，功率筛查阈值应非负")
-    archive = ROOT / rules["source_zip"]
+    archive = ROOT / rules.get("source", rules.get("source_zip"))
     raw, metadata = read_station(archive, rules["station"])
     data = raw.copy()
     data["source_csv_row"] = np.arange(len(data)) + 2
@@ -196,7 +196,7 @@ def main():
     save_csv(weeks, folder / "cleaned_test_week_coverage.csv")
     made_plot = plot_review(cleaned, runs, figure)
     summary = {
-        "rule_version": rules["version"], "source_sha256": hashlib.sha256(archive.read_bytes()).hexdigest(),
+        "rule_version": rules["version"], "source_sha256": source_sha256(archive, rules["station"]),
         "rules_sha256": hashlib.sha256(args.rules.read_bytes()).hexdigest(), "rows": len(cleaned),
         "source_columns_unchanged": True, "nwp_columns_unchanged": True,
         "candidate_frozen_runs": len(runs), "candidate_frozen_points": int(cleaned["flag_frozen_run"].sum()),
@@ -215,19 +215,19 @@ def main():
         "limits": rules["limitations"],
     }
     (folder / "cleaning_summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
-    lines = ["# 第一问第一版清洗摘要：station01", "", f"规则版本：{rules['version']}；规则文件：docs/q1_cleaning_rules.json。", "",
-             "原始ZIP和原始列保持不变；全部时间点保留，七项现场量的清洗结果另存为*_clean列。", "",
+    lines = [f"# 第一问第一版清洗摘要：{rules['station']}", "", f"规则版本：{rules['version']}；规则文件：{args.rules}。", "",
+             "原始数据和原始列保持不变；全部时间点保留，七项现场量的清洗结果另存为*_clean列。", "",
              "## 已处理的持值段", "", "| 开始（北京时间） | 结束 | 全段点数 | 后续重复点设缺失 | 保留首点 |", "|---|---|---:|---:|---:|"]
     lines += [f"| {r.start_local} | {r.end_local} | {r.points} | {r.masked_repeated_points} | {r.points - r.masked_repeated_points} |"
               for r in runs.itertuples()]
-    lines += ["", "每段的功率和六个现场气象量完全相同，持续至太阳高度角<-6°，而NWP总辐照仍有变化。",
-              "这支持判定数据存在可疑持值，但不能确认是采集故障、通信问题还是既有填补。首点可能是最后一次有效采样，故保留并标注边界待复查。", "",
+    lines += ["", "候选段要求功率和六个现场气象量完全相同，且包含太阳高度角<-6°的正功率和正辐照点；无候选段时不进行持值清洗。",
+              "满足规则只能标为可疑持值，不能确认采集故障、通信问题或既有填补。存在候选段时首点保留并标注边界待复查。", "",
               "## 处理结果", "", f"- {summary['rows']}条记录仍全部保留；{summary['invalid_power_points']}个功率清洗值为缺失，未插值或补零。",
               f"- 共{summary['modified_cells']}个现场字段值被设为缺失，逐值原值、行号、时间和原因见cleaning_log.csv。",
               f"- {summary['complete_power_days']}日保留完整96点功率；{summary['incomplete_power_days']}日功率不完整，见cleaned_daily_coverage.csv。",
               f"- {summary['day_zero_flags_retained']}个白昼较强辐照下零/低功率点保留，原因未确认；不能据此断言故障或限电。",
               f"- 清洗后仍有{summary['remaining_night_positive_power_points']}个夜间正功率点，但深夜正功率点为{summary['remaining_deep_night_positive_power_points']}个；近地平线样本继续保留待查。",
-              "- 四个测试周各672条时间记录保持完整，功率清洗缺失数见cleaned_test_week_coverage.csv；本次均为0，不更换评分真值。", "",
+              "- 四个测试周的时间覆盖和功率清洗缺失数见cleaned_test_week_coverage.csv；不更换评分真值。", "",
               "## 使用清洗表", "", f"文件：{summary['processed_file']}。", "",
               "- 原始列power仍是原始实测MW；第一问统计使用power_clean并检查valid_power_for_q1。",
               "- 现场气象使用对应*_clean列；valid_local_weather_for_q1表示六项现场量均通过当前基础规则。",
@@ -235,7 +235,7 @@ def main():
               "- 不完整日的日发电量不能按缺失补零。月度比较应使用完整有效日并报告天数，也应保留未清洗结果作敏感性对照。",
               "- 只有相邻两个功率清洗值有效且时间相差15分钟时，才计算15分钟功率变化。",
               "- 采样口径未确认前，不能把功率求和×0.25小时无条件宣称为精确日发电量。", "",
-              "## 图与复现", "", f"图：{summary['figure']}。", "运行：.venv/bin/python src/q1_clean_data.py。", "",
+              "## 图与复现", "", f"图：{summary['figure']}。", f"运行：.venv/bin/python src/q1_clean_data.py --rules {args.rules}。", "",
               "## 假设与边界", "", *[f"- {item}" for item in summary["limits"]], "",
               "## 下一步", "", "明确第一问参考功率的物理口径与参数假设，再实现晴空参考曲线；所有结果必须记录清洗规则版本。"]
     (folder / "清洗摘要.md").write_text("\n".join(lines) + "\n", encoding="utf-8")

@@ -1,0 +1,96 @@
+{
+  "model_version": "q1-reference-station08-v1",
+  "assumptions": {
+    "version": "q1-reference-station08-v1",
+    "station": "station08",
+    "altitude_m_assumed": 0,
+    "tilt_deg": 33,
+    "azimuth_deg": 180,
+    "clear_sky_model": "ineichen",
+    "transposition_model": "isotropic",
+    "albedo_assumed": 0.25,
+    "cell_temperature_reference_c": 25,
+    "ac_limit_mw_assumed": 20,
+    "inverter_nominal_efficiency_assumed": 0.96,
+    "extra_loss_fraction_scenarios": [
+      0,
+      0.1,
+      0.2
+    ],
+    "altitude_sensitivity_m_assumed": 200,
+    "plot_day_local": "2018-08-25",
+    "status": "station08重跑；沿用明确假设，组件参数与坐标改用该站元数据",
+    "limits": [
+      "海拔0m及敏感性200m均为假设，不是站点真实海拔。",
+      "将实测power按交流输出理解、交流限制暂设20MW，真实AC/DC口径未确认。",
+      "逆变器96%为PVWatts模型默认额定效率假设，不是SUN2000-40KTL实测效率。",
+      "固定组件温度25摄氏度，仅用于参考工况；现场气温不是组件温度。",
+      "把板面辐照近似为有效辐照，忽略入射角、光谱、遮挡等细节。",
+      "额外损耗0%、10%、20%是敏感性情景，均未通过实测功率拟合。",
+      "晴空模型采用pvlib内置气候浑浊度资料，不是逐时现场大气状态。",
+      "把时间戳当作采样时刻进行点值对齐；未确认区间平均、区间头尾等测量口径。",
+      "参考曲线不是任何天气下都成立的严格发电上限，也不是未来功率预测。"
+    ]
+  },
+  "cleaned_data_sha256": "f2d847e3060830cab10bfb634922136e056d11755e754a0882dc8bb35b1417e8",
+  "source_zip_sha256": "32fbf117b0557af84f51d784f844c7a7afc3eca506cc0aabb1b1a8e00db96c0b",
+  "assumptions_sha256": "cb51f4280f2029f7aa9431ebe25bf3ad4f320a3f2a94a8186445d8928102986e",
+  "source": "/Users/Admin1/Documents/GitHub/mathorcup-pv-practice/data/PVOD",
+  "metadata": {
+    "Station_ID": "station08",
+    "Capacity": 20000,
+    "PV_Technology": "Poly-Si",
+    "Panel_Size": 1.6335,
+    "Module": "products types:YL265C-30b\nPmax:265 Wp\nVmpp:31 V\nImpp:8.55 A\nmanufacturer:Yingli",
+    "Inverters": "products types:SUN2000-40KTL\nMax. DC input: 40.8 kW\nMax. DC voltage: 1000 V\nMax. DC current: 23 A \nRated power: 36 kW\nmanufacturer:Huawei",
+    "Layout": "modules per string:22\nstrings per inverter:5",
+    "Panel_Number": 78042,
+    "Array_Tilt": "South 33°",
+    "Pyranometer": "GHI: \nproducts types: TBQ-2\nmeasurement accuracy: ±5%\nmeasurement range:0-2000 W/m^2\ncalibration period: 2 years\nmanufacturer: Jinzhou Sunshine Meteorological Technology Co., Ltd.\nDHI:\nproducts types: TBD-1\nmeasurement accuracy: ±5%\nmeasurement range:0-2000 W/m^2\ncalibration period: 2 years\nmanufacturer: Jinzhou Sunshine Meteorological Technology Co., Ltd.",
+    "Longitude": 113.89999,
+    "Latitude": 36.70761
+  },
+  "pvlib_version": "0.16.1",
+  "rows": 33120,
+  "panel_number": 78042,
+  "panel_pmax_wp": 265.0,
+  "derived_dc_capacity_mwp": 20.68113,
+  "assumed_ac_limit_mw": 20,
+  "common_daylight_points": 16476,
+  "scenarios": [
+    {
+      "scenario": "reference_ac_loss0_mw",
+      "common_daylight_points": 16476,
+      "reference_peak_mw": 20.0,
+      "mean_actual_minus_reference_mw": -5.340479148576058,
+      "mae_to_reference_mw": 5.355316715539233,
+      "actual_exceeds_reference_points": 816
+    },
+    {
+      "scenario": "reference_ac_loss10_mw",
+      "common_daylight_points": 16476,
+      "reference_peak_mw": 18.130313710768142,
+      "mean_actual_minus_reference_mw": -4.228229844379144,
+      "mae_to_reference_mw": 4.253196268133743,
+      "actual_exceeds_reference_points": 1138
+    },
+    {
+      "scenario": "reference_ac_loss20_mw",
+      "common_daylight_points": 16476,
+      "reference_peak_mw": 16.129464952739575,
+      "mean_actual_minus_reference_mw": -3.1128920639107487,
+      "mae_to_reference_mw": 3.2406579896085446,
+      "actual_exceeds_reference_points": 2653
+    },
+    {
+      "scenario": "reference_ac_altitude200_loss0_mw",
+      "common_daylight_points": 16476,
+      "reference_peak_mw": 20.0,
+      "mean_actual_minus_reference_mw": -5.380426095183023,
+      "mae_to_reference_mw": 5.3981482732095385,
+      "actual_exceeds_reference_points": 891
+    }
+  ],
+  "comparison_is_forecast_evaluation": false,
+  "no_parameters_fitted_from_power": true
+}

@@ -1,0 +1,36 @@
+{
+  "version": "q1-station08-v1",
+  "station": "station08",
+  "timezone": "Asia/Shanghai",
+  "solar_altitude_assumption_m": 0,
+  "power_tolerance_mw": 0.01,
+  "strong_irradiance_threshold_wm2": 200,
+  "frozen_min_points": 4,
+  "deep_night_elevation_deg": -6,
+  "keep_first_frozen_point": true,
+  "frozen_fields": [
+    "power",
+    "lmd_totalirrad",
+    "lmd_diffuseirrad",
+    "lmd_temperature",
+    "lmd_pressure",
+    "lmd_winddirection",
+    "lmd_windspeed"
+  ],
+  "policy": {
+    "frozen": "至少4个连续15分钟点，七项现场量逐点完全相同，且该段含太阳高度角<-6度、功率>0.01 MW、总辐照>0的点；保留首点并标注边界待复查，后续重复点的七项清洗值设为缺失。",
+    "day_zero": "白昼现场总辐照>200 W/m²而功率<=0.01 MW，只标记，不删除或用预测值替换。",
+    "twilight": "夜间小正功率若不属于持值重复段，只标记；采样区间口径未确认，不强制归零。",
+    "capacity": "超装机容量只标记；AC/DC口径未确认，不直接裁剪。",
+    "missing": "数值缺失、无穷值、解析失败或明显非法负功率/负辐照/负风速/非正压力/风向超0至360度，相关清洗字段设为缺失，不插值。",
+    "raw": "保留原始列、全部时间点和原始CSV行号；清洗另存为*_clean列。NWP字段保留原值。"
+  },
+  "limitations": [
+    "这是第一问的离线质量复查规则，不能声称起报时可实时发现整段持值，也不能把事后标记作为预测输入。",
+    "沿用station01基础规则以保持比较口径；本次检查station08持值证据，但不能证明已经发现全部异常。",
+    "持值表明数据可疑，未确认真实采集故障或填补原因。",
+    "持值首点保留是工作假设，不表示其已获独立验证。",
+    "功率区间口径、AC/DC口径和海拔尚未确认；海拔暂设0米仅用于昼夜筛查。"
+  ],
+  "source": "data/PVOD"
+}

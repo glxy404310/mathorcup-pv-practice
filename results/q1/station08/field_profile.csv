@@ -1,0 +1,16 @@
+﻿field,raw_dtype,missing_count,missing_fraction,unit,parse_failure_count,infinite_count,min,median,p99,max
+date_time,str,0,0.0,UTC timestamp,,,,,,
+nwp_globalirrad,float64,0,0.0,W/m²,0.0,0.0,0.0,0.0,867.1804999999999,956.6
+nwp_directirrad,float64,0,0.0,W/m²,0.0,0.0,0.0,0.0,814.4714999999997,902.32
+nwp_temperature,float64,0,0.0,°C,0.0,0.0,-10.47,13.23,33.3,36.79
+nwp_humidity,float64,0,0.0,%,0.0,0.0,4.64,40.44,94.34,99.99
+nwp_windspeed,float64,0,0.0,m/s,0.0,0.0,0.09,3.62,10.61,16.99
+nwp_winddirection,float64,0,0.0,degree,0.0,0.0,0.0,237.38,354.32429999999994,359.99
+nwp_pressure,float64,0,0.0,hPa,0.0,0.0,938.19,958.03,976.6181,979.66
+lmd_totalirrad,int64,0,0.0,W/m²,0.0,0.0,0.0,0.0,980.0,1243.0
+lmd_diffuseirrad,int64,0,0.0,W/m²,0.0,0.0,0.0,0.0,349.0,859.0
+lmd_temperature,float64,0,0.0,°C,0.0,0.0,-12.0,14.1,32.400002,37.700001
+lmd_pressure,float64,0,0.0,hPa,0.0,0.0,936.900024,957.0,977.0,981.0
+lmd_winddirection,int64,0,0.0,degree,0.0,0.0,0.0,194.0,354.0,357.0
+lmd_windspeed,float64,0,0.0,m/s,0.0,0.0,0.0,1.4,7.2,14.5
+power,float64,0,0.0,MW,0.0,0.0,0.0,0.0,15.05680609999999,17.866020000000002

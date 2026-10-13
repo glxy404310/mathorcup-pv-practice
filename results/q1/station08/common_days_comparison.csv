@@ -1,0 +1,3 @@
+﻿station,common_complete_days,common_records,mean_daily_integral_mwh,daylight_points,strong_irradiance_zero_low_points,zero_low_fraction_of_daylight,daylight_ramp_pairs,p95_abs_ramp_mw,max_abs_ramp_mw,ramp_irradiance_pearson
+station01,342,32832,87.31829731432748,16342,65,0.003977481336433729,16000,3.587466,15.397692000000001,0.7837457302314031
+station08,342,32832,69.09502770175438,16340,28,0.0017135862913096695,15998,2.7997861999999984,12.229361,0.8420546352884926

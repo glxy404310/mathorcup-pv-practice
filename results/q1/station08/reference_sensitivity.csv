@@ -1,0 +1,5 @@
+﻿scenario,common_daylight_points,reference_peak_mw,mean_actual_minus_reference_mw,mae_to_reference_mw,actual_exceeds_reference_points
+reference_ac_loss0_mw,16476,20.0,-5.340479148576058,5.355316715539233,816
+reference_ac_loss10_mw,16476,18.130313710768142,-4.228229844379144,4.253196268133743,1138
+reference_ac_loss20_mw,16476,16.129464952739575,-3.1128920639107487,3.2406579896085446,2653
+reference_ac_altitude200_loss0_mw,16476,20.0,-5.380426095183023,5.3981482732095385,891

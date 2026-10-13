@@ -1,0 +1,32 @@
+{
+  "version": "q1-reference-station08-v1",
+  "station": "station08",
+  "altitude_m_assumed": 0,
+  "tilt_deg": 33,
+  "azimuth_deg": 180,
+  "clear_sky_model": "ineichen",
+  "transposition_model": "isotropic",
+  "albedo_assumed": 0.25,
+  "cell_temperature_reference_c": 25,
+  "ac_limit_mw_assumed": 20,
+  "inverter_nominal_efficiency_assumed": 0.96,
+  "extra_loss_fraction_scenarios": [
+    0,
+    0.1,
+    0.2
+  ],
+  "altitude_sensitivity_m_assumed": 200,
+  "plot_day_local": "2018-08-25",
+  "status": "station08重跑；沿用明确假设，组件参数与坐标改用该站元数据",
+  "limits": [
+    "海拔0m及敏感性200m均为假设，不是站点真实海拔。",
+    "将实测power按交流输出理解、交流限制暂设20MW，真实AC/DC口径未确认。",
+    "逆变器96%为PVWatts模型默认额定效率假设，不是SUN2000-40KTL实测效率。",
+    "固定组件温度25摄氏度，仅用于参考工况；现场气温不是组件温度。",
+    "把板面辐照近似为有效辐照，忽略入射角、光谱、遮挡等细节。",
+    "额外损耗0%、10%、20%是敏感性情景，均未通过实测功率拟合。",
+    "晴空模型采用pvlib内置气候浑浊度资料，不是逐时现场大气状态。",
+    "把时间戳当作采样时刻进行点值对齐；未确认区间平均、区间头尾等测量口径。",
+    "参考曲线不是任何天气下都成立的严格发电上限，也不是未来功率预测。"
+  ]
+}

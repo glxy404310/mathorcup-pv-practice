@@ -1,0 +1,39 @@
+{
+  "version": "q1-station08-rerun-v1",
+  "date": "2026-10-13",
+  "station01_raw_columns_match_previous_processed": true,
+  "original_zip_available": false,
+  "common_complete_days": 342,
+  "missing_station08_dates": [
+    "2018-11-11",
+    "2018-11-12",
+    "2018-11-13"
+  ],
+  "inputs_sha256": {
+    "data/PVOD/metadata.csv": "00b27b0c51fa5cd84b74698171d5fa9a34a610c15a7612f2a1f4038f32878695",
+    "data/PVOD/station08.csv": "bdc63615b805bc9cc37c28cfcb0d4a8a865aecd0228311c5d11f6cd46d3fe151",
+    "docs/q1_cleaning_rules_station08.json": "3dc3432ad33164f5197fef41f7f87ccd8a8f1a9d8ed68f55139cf4f758016071",
+    "docs/q1_reference_assumptions_station08.json": "cb51f4280f2029f7aa9431ebe25bf3ad4f320a3f2a94a8186445d8928102986e",
+    "results/q1/station01/summary.json": "6d8398afd854230b7d79a4a619061a0b51c514a77d078fb368e50f68fd064f7b",
+    "results/q1/station01/cleaning_summary.json": "ad969695e6f48341f398765012040d27883801265701dbb9e0567229732f9a78",
+    "results/q1/station01/reference_summary.json": "287e8e4596a71e46eb99363f3b248d090545c5abc44a93335c3f5cc9e000dfc5",
+    "results/q1/station01/characteristics_summary.json": "8f4f7461f356f4ef54577bd84abf2f82c24c811cf205340bb81305c2718c36f6",
+    "results/q1/station01/daily_characteristics.csv": "a8757683d32b881333d911573e1d8b96e59cf5a0d05194abb3668caa1ba27c3d",
+    "data/processed/station01_q1_clean.csv": "c881572ac3054039e463a0bd3cc4f0694421038823473ad9995f14945503ee5b",
+    "results/q1/station01/reference_power.csv": "8be0d8cb238a2d7ceee356f71d274b52b755d937938d90c2a1bff04464734388",
+    "results/q1/station08/summary.json": "59c36b4e4974a020cd4f62df63a90a4274d0b918ca9800e34d8c171aa772f667",
+    "results/q1/station08/cleaning_summary.json": "0a7ef864ef286951fc6db04f63a3c3b2681e09b3610beebd2980937a0aa8cd91",
+    "results/q1/station08/reference_summary.json": "2fa2d81718954e1d1907e804976fd6e3917dd2536bc9c42da36196d49b78f79d",
+    "results/q1/station08/characteristics_summary.json": "62a482d33710b3940501974b49d718b0d12fe529a322aa712089db91ccd5b64f",
+    "results/q1/station08/daily_characteristics.csv": "9e2660589a2e40b962f2aa06c5b6963e377070d5cbb86d3c8d664b52948c5ec2",
+    "data/processed/station08_q1_clean.csv": "f2d847e3060830cab10bfb634922136e056d11755e754a0882dc8bb35b1417e8",
+    "results/q1/station08/reference_power.csv": "560f1f4622bba72e44981d0b0aa0be54e5279eda6b49b30560d22735ad3f8399",
+    "src/q1_check_data.py": "ec8d4ee5b17b97ec4fe981cf0ff108a46331a657ba0c2720c08701b289307e0e",
+    "src/q1_clean_data.py": "eb7d4541eadf1d2ceb068a43e05c766cec838f79383f2ef6d84bfeaf4219942e",
+    "src/q1_reference_power.py": "f8e054db115266df9fae5543885b8ba756f81ee8469e1a5b5ec7119e2ddbefcb",
+    "src/q1_characteristics.py": "31f02d9e7ef6eaaa835d08e63c51b1076104caf1dd3304d4afeb2beefc504fc9",
+    "src/build_q1_station08_report.py": "e9b6fd4118fd30ae689653810469dca35eb543559c70276c38a1e559ae77188f"
+  },
+  "draft_sha256": "5b815968d3546ebafa26976ef962f346fa4f770d2e51928feb744c900239018a",
+  "status": "练习审阅稿，设备及采样口径仍待核实"
+}

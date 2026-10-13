@@ -1,5 +1,6 @@
 """第一问步骤3：计算明确假设下的晴空参考功率，保留DC和AC口径。"""
 
+import argparse
 import hashlib
 import json
 from pathlib import Path
@@ -12,7 +13,7 @@ import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 from matplotlib import font_manager
 
-from q1_check_data import ROOT, STEP, read_station, save_csv
+from q1_check_data import ROOT, STEP, source_sha256, read_station, save_csv
 
 
 def reference_from_poa(poa, dc_capacity_w, ac_limit_w, efficiency, extra_loss=0):
@@ -69,8 +70,8 @@ def plot_day(table, assumptions, path):
     for ax in axes:
         ax.grid(axis="y", color="#e4e7eb", linewidth=0.7)
         ax.spines[["top", "right"]].set_visible(False)
-    fig.suptitle(f"station01 {start:%Y-%m-%d}：实际与假设工况晴空参考" if chinese else
-                 f"station01 {start:%Y-%m-%d}: actual vs assumed clear-sky reference", fontsize=14)
+    fig.suptitle(f"{assumptions['station']} {start:%Y-%m-%d}：实际与假设工况晴空参考" if chinese else
+                 f"{assumptions['station']} {start:%Y-%m-%d}: actual vs assumed clear-sky reference", fontsize=14)
     fig.text(0.08, 0.018, "北京时间；固定组件温度25°C、假设交流限制20MW；固定诊断日，不代表全年；参考不是严格上限。" if chinese else
              "Asia/Shanghai; fixed cell temperature 25°C; assumed AC limit 20 MW; diagnostic day, not a strict upper bound.", fontsize=9)
     fig.tight_layout(rect=(0, 0.055, 1, 0.95))
@@ -79,16 +80,20 @@ def plot_day(table, assumptions, path):
 
 
 def main():
-    config_path = ROOT / "docs/q1_reference_assumptions.json"
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--assumptions", type=Path, default=ROOT / "docs/q1_reference_assumptions.json")
+    parser.add_argument("--source", type=Path, default=ROOT / "docs/PVODdatasets_v1.0.zip")
+    args = parser.parse_args()
+    config_path = args.assumptions
     assumptions = json.loads(config_path.read_text())
-    archive = ROOT / "docs/PVODdatasets_v1.0.zip"
+    archive = args.source
     _, metadata = read_station(archive, assumptions["station"])
     match = re.search(r"Pmax:\s*([\d.]+)\s*Wp", metadata["Module"])
     if not match:
         raise ValueError("无法从组件信息读取Pmax，不猜测额定功率")
     panel_w = float(match.group(1))
     dc_w = int(metadata["Panel_Number"]) * panel_w
-    source = ROOT / "data/processed/station01_q1_clean.csv"
+    source = ROOT / "data/processed" / f"{assumptions['station']}_q1_clean.csv"
     cleaned = pd.read_csv(source)
     times = pd.DatetimeIndex(pd.to_datetime(cleaned["time_utc"], utc=True))
     if times.hasnans or not times.is_unique:
@@ -120,7 +125,7 @@ def main():
     assert table.loc[~table["is_daylight"], "reference_ac_loss0_mw"].eq(0).all()
     assert (table["reference_ac_loss0_mw"] >= table["reference_ac_loss10_mw"] - 1e-10).all()
     assert (table["reference_ac_loss10_mw"] >= table["reference_ac_loss20_mw"] - 1e-10).all()
-    folder = ROOT / "results/q1/station01"
+    folder = ROOT / "results/q1" / assumptions["station"]
     save_csv(table, folder / "reference_power.csv")
     common = table.loc[table["is_daylight"] & table["valid_power_for_q1"]]
     rows = []
@@ -134,16 +139,16 @@ def main():
     save_csv(pd.DataFrame(rows), folder / "reference_sensitivity.csv")
     summary = {"model_version": assumptions["version"], "assumptions": assumptions,
                "cleaned_data_sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
-               "source_zip_sha256": hashlib.sha256(archive.read_bytes()).hexdigest(),
+               "source_zip_sha256": source_sha256(archive, assumptions["station"]),
                "assumptions_sha256": hashlib.sha256(config_path.read_bytes()).hexdigest(),
-               "pvlib_version": pvlib.__version__, "rows": len(table),
+               "source": str(archive.resolve()), "metadata": metadata.to_dict(), "pvlib_version": pvlib.__version__, "rows": len(table),
                "panel_number": int(metadata["Panel_Number"]), "panel_pmax_wp": panel_w,
                "derived_dc_capacity_mwp": dc_w / 1e6, "assumed_ac_limit_mw": assumptions["ac_limit_mw_assumed"],
                "common_daylight_points": len(common), "scenarios": rows,
                "comparison_is_forecast_evaluation": False,
                "no_parameters_fitted_from_power": True}
     (folder / "reference_summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
-    plot_day(table, assumptions, ROOT / "figures/q1/station01_reference_day.png")
+    plot_day(table, assumptions, ROOT / "figures/q1" / f"{assumptions['station']}_reference_day.png")
     print(json.dumps({key: summary[key] for key in ("model_version", "rows", "derived_dc_capacity_mwp", "scenarios")},
                      ensure_ascii=False, indent=2))
 

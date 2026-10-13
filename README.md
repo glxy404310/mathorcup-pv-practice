@@ -120,3 +120,18 @@ python src/q1_check_data.py
 正文含数据口径、晴空模型、月度和日内结果、实际/参考偏差、短时波动、参数敏感性、结论与局限。第一问仍待A、C复核，不表示已经核实真实AC/DC、测量区间、设备参数或异常原因。临时Q1引用编号应在合并全文时统一。
 
 此命令会重新生成第一问文字；人工修改前保存副本，或同步修改生成脚本，避免下次重跑覆盖编辑内容。
+
+
+## station08第一问重跑（2026-10-13）
+
+从解压后的`data/PVOD`读取，原始数据和station01结果保留。独立稿件见`paper/第一问_station08重跑与对比.md`，结果见`results/q1/station08/`。
+
+```bash
+.venv/bin/python src/q1_check_data.py --station station08 --source data/PVOD
+.venv/bin/python src/q1_clean_data.py --rules docs/q1_cleaning_rules_station08.json
+.venv/bin/python src/q1_reference_power.py --assumptions docs/q1_reference_assumptions_station08.json --source data/PVOD
+.venv/bin/python src/q1_characteristics.py --station station08
+.venv/bin/python src/build_q1_station08_report.py
+```
+
+station08当前规则下无可疑持值段，强辐照零/低功率28点；缺2018-11-11至11-13整3日。两站清洗后各345个完整功率日，共同完整342日。比较仅说明已检查异常与统计特征，不证明后续预测性能更好。昨日ZIP目前不在项目中，旧版默认命令依赖该ZIP；本次命令显式指定解压目录。参考模型的旧`source_zip_sha256`字段在目录输入时记录metadata.csv与对应站点CSV的组合哈希，输入路径另记于`source`。

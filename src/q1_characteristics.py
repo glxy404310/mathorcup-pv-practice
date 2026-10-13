@@ -1,6 +1,7 @@
 """第一问步骤4：月度日积分估计、季节日内曲线、白昼偏差与连续15分钟变化。"""
 
 import calendar
+import argparse
 import hashlib
 import json
 
@@ -96,7 +97,7 @@ def seasonal_profiles(data, daily):
     return profiles, pd.DataFrame(season_rows)
 
 
-def plot_results(monthly, profiles, ramps, season_summary, figures):
+def plot_results(monthly, profiles, ramps, season_summary, figures, station="station01"):
     fonts = {font.name for font in font_manager.fontManager.ttflist}
     chinese = next((name for name in ("PingFang HK", "Songti SC", "Heiti TC", "SimHei", "Noto Sans CJK SC")
                     if name in fonts), None)
@@ -113,14 +114,14 @@ def plot_results(monthly, profiles, ramps, season_summary, figures):
     ax.set_xticks(x, [f"{r.year_month}\nn={r.complete_power_days}" for r in monthly.itertuples()])
     ax.set_ylim(bottom=0)
     ax.set_ylabel("日积分估计（MWh）" if chinese else "Daily integral estimate (MWh)")
-    ax.set_title("station01 月度日积分估计（完整功率日）" if chinese else "station01: monthly daily integral estimates (complete days)")
+    ax.set_title(f"{station} 月度日积分估计（完整功率日）" if chinese else f"{station}: monthly daily integral estimates (complete days)")
     ax.legend(frameon=False, fontsize=9, ncol=3)
     ax.grid(axis="y", color="#e4e7eb")
     ax.spines[["top", "right"]].set_visible(False)
     fig.text(0.06, 0.015, "Σ采样功率×0.25小时；采样口径待确认，非精确实测电量。P10—P90为不同日期分布，不是置信区间；2019年6月仅到13日。" if chinese else
              "Sum(samples) × 0.25 h; sampling convention unconfirmed. P10-P90 is spread, not confidence; June ends on the 13th.", fontsize=9)
     fig.tight_layout(rect=(0, 0.065, 1, 1))
-    fig.savefig(figures / "station01_monthly_integral.png", dpi=300)
+    fig.savefig(figures / f"{station}_monthly_integral.png", dpi=300)
     plt.close(fig)
 
     fig, axes = plt.subplots(2, 2, figsize=(12, 8), sharex=True, sharey=True)
@@ -141,11 +142,11 @@ def plot_results(monthly, profiles, ramps, season_summary, figures):
         ax.spines[["top", "right"]].set_visible(False)
     axes[0, 0].legend(frameon=False, fontsize=9)
     for ax in axes[:, 0]: ax.set_ylabel("功率（MW）" if chinese else "Power (MW)")
-    fig.suptitle("station01 各季节平均日内形状（完整日，北京时间）" if chinese else "station01: seasonal diurnal profiles (complete days, Asia/Shanghai)")
+    fig.suptitle(f"{station} 各季节平均日内形状（完整日，北京时间）" if chinese else f"{station}: seasonal diurnal profiles (complete days, Asia/Shanghai)")
     fig.text(0.06, 0.017, "同一季节各时刻使用同一批完整日；阴影为不同日期P25—P75，不是置信区间。夏季为跨年且不完整的观测时段。" if chinese else
              "Each season uses the same complete days at all times; shading is P25-P75, not confidence. Summer is partial and spans years.", fontsize=9)
     fig.tight_layout(rect=(0, 0.065, 1, 0.96))
-    fig.savefig(figures / "station01_seasonal_diurnal.png", dpi=300)
+    fig.savefig(figures / f"{station}_seasonal_diurnal.png", dpi=300)
     plt.close(fig)
 
     daylight = ramps.loc[ramps["valid_power_pair"] & ramps["both_points_daylight"]]
@@ -167,13 +168,17 @@ def plot_results(monthly, profiles, ramps, season_summary, figures):
     fig.text(0.06, 0.018, "只计算连续15分钟且两端有效的点；两端太阳高度角均>0。散点呈现相关性，不能确认单一原因。" if chinese else
              "Only contiguous 15-min pairs with valid endpoints above the horizon; association does not establish a unique cause.", fontsize=9)
     fig.tight_layout(rect=(0, 0.065, 1, 1))
-    fig.savefig(figures / "station01_daylight_fluctuation.png", dpi=300)
+    fig.savefig(figures / f"{station}_daylight_fluctuation.png", dpi=300)
     plt.close(fig)
 
 
 def main():
-    folder = ROOT / "results/q1/station01"
-    clean_path = ROOT / "data/processed/station01_q1_clean.csv"
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--station", default="station01")
+    args = parser.parse_args()
+    station = args.station
+    folder = ROOT / "results/q1" / station
+    clean_path = ROOT / "data/processed" / f"{station}_q1_clean.csv"
     reference_path = folder / "reference_power.csv"
     provenance = json.loads((folder / "reference_summary.json").read_text())
     if hashlib.sha256(clean_path.read_bytes()).hexdigest() != provenance["cleaned_data_sha256"]:
@@ -212,7 +217,7 @@ def main():
                         (ramps, "continuous_15min_changes.csv"), (extreme, "largest_daylight_changes.csv"),
                         (deviation, "monthly_daylight_deviation.csv"),
                         (zero_events, "zero_power_daylight_events.csv")]: save_csv(frame, folder / name)
-    summary = {"analysis_version": "q1-characteristics-v1", "rows": len(data),
+    summary = {"station": station, "analysis_version": "q1-characteristics-v1", "rows": len(data),
                "cleaned_data_sha256": hashlib.sha256(clean_path.read_bytes()).hexdigest(),
                "reference_data_sha256": hashlib.sha256(reference_path.read_bytes()).hexdigest(),
                "reference_model_version": provenance["model_version"], "observed_days": len(daily),
@@ -227,13 +232,13 @@ def main():
                "monthly_lowest": monthly.loc[monthly["mean_daily_integral_estimate_mwh"].idxmin()].to_dict(),
                "largest_change": extreme.iloc[0].astype(str).to_dict(),
                "limits": ["功率采样与时间戳区间口径仍未确认，电量为积分估计",
-                          "2019年6月只覆盖1—13日，夏季曲线合并跨年且不完整观测",
+                          "首尾月份覆盖及夏季跨年情况须结合逐日覆盖表复核",
                           "参考功率参数含明确假设；实际/参考差异不是预测误差或唯一故障证据",
                           "保留的可疑零功率、近地平线正功率和持值首点仍可能影响统计",
                           "月度与季节均为描述性比较，没有对天气、设备状态和采样日期作因果控制"]}
     # pandas标量转为标准JSON类型，保持输入行与所有计算表可追溯。
     (folder / "characteristics_summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2, default=str), encoding="utf-8")
-    plot_results(monthly, profiles, ramps, seasonal, ROOT / "figures/q1")
+    plot_results(monthly, profiles, ramps, seasonal, ROOT / "figures/q1", station)
     highest, lowest = summary["monthly_highest"], summary["monthly_lowest"]
     lines = ["# 第一问月度、日内与波动分析（v1）", "", "本文件由src/q1_characteristics.py生成；观察与原因解释分开记录。", "",
              "## 计算口径", "", f"- {summary['observed_days']}个观测日中，月度与日内曲线使用{summary['complete_power_days']}个完整96点功率日。",
@@ -261,10 +266,10 @@ def main():
     lines += ["", "功率降到零而辐照仍为正或上升，说明仅用辐照变化无法解释所有事件；尚缺故障、限电、测量状态等记录，原因不能确认。", "",
               "## 实际与参考偏差", "", "monthly_daylight_deviation.csv按月保留白昼有效点数、平均实际减参考、平均绝对差及超过参考的比例。",
               "这些量是对简化物理参考的描述，不是日前预测评测；缺测实际值不填补。", "",
-              "## 图与结果位置", "", "- figures/q1/station01_monthly_integral.png：月度均值、日间范围与同日参考。",
-              "- figures/q1/station01_seasonal_diurnal.png：各季节平均日内形状。",
-              "- figures/q1/station01_daylight_fluctuation.png：白昼变化分布与辐照变化散点。",
-              "- 计算表保存在results/q1/station01，摘要数字可逐项追溯。", "",
+              "## 图与结果位置", "", f"- figures/q1/{station}_monthly_integral.png：月度均值、日间范围与同日参考。",
+              f"- figures/q1/{station}_seasonal_diurnal.png：各季节平均日内形状。",
+              f"- figures/q1/{station}_daylight_fluctuation.png：白昼变化分布与辐照变化散点。",
+              f"- 计算表保存在results/q1/{station}，摘要数字可逐项追溯。", "",
               "## 局限与下一步", "", *[f"- {item}" for item in summary["limits"]], "",
               "下一步由A、B、C结合结果写第一问解释草稿，并用损耗、清洗与积分口径敏感性讨论限制；获得测量或设备说明后再修订。"]
     (folder / "特性分析摘要.md").write_text("\n".join(lines) + "\n", encoding="utf-8")

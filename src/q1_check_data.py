@@ -54,20 +54,37 @@ def save_csv(frame, path):
 
 
 def read_station(archive, station):
-    with zipfile.ZipFile(archive) as bundle:
-        with bundle.open("metadata.csv") as stream:
-            metadata = pd.read_csv(stream)
-        selected = metadata.loc[metadata["Station_ID"].eq(station)]
-        if len(selected) != 1:
-            raise ValueError(f"元数据中应恰好有一条{station}记录")
-        with bundle.open(f"{station}.csv") as stream:
-            raw = pd.read_csv(stream)
+    archive = Path(archive)
+    if archive.is_dir():
+        metadata = pd.read_csv(archive / "metadata.csv")
+        raw = pd.read_csv(archive / f"{station}.csv")
+    else:
+        with zipfile.ZipFile(archive) as bundle:
+            with bundle.open("metadata.csv") as stream:
+                metadata = pd.read_csv(stream)
+            with bundle.open(f"{station}.csv") as stream:
+                raw = pd.read_csv(stream)
+    selected = metadata.loc[metadata["Station_ID"].eq(station)]
+    if len(selected) != 1:
+        raise ValueError(f"元数据中应恰好有一条{station}记录")
     missing = {"date_time", *UNITS} - set(raw.columns)
     if missing:
         raise ValueError(f"缺少必需字段：{sorted(missing)}")
     if raw.empty:
         raise ValueError("站点数据为空")
     return raw, selected.iloc[0]
+
+
+def source_sha256(source, station):
+    """ZIP按原口径哈希；目录按元数据和站点CSV的命名及字节哈希。"""
+    source = Path(source)
+    if source.is_file():
+        return hashlib.sha256(source.read_bytes()).hexdigest()
+    digest = hashlib.sha256()
+    for name in ("metadata.csv", f"{station}.csv"):
+        digest.update(name.encode())
+        digest.update(hashlib.sha256((source / name).read_bytes()).digest())
+    return digest.hexdigest()
 
 
 def check_fields(raw):
@@ -166,7 +183,7 @@ def make_plot(data, start, days, capacity, station, path):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--station", default="station01")
-    parser.add_argument("--zip", type=Path, default=ROOT / "docs/PVODdatasets_v1.0.zip")
+    parser.add_argument("--source", "--zip", dest="zip", type=Path, default=ROOT / "docs/PVODdatasets_v1.0.zip")
     parser.add_argument("--plot-start", default="2018-08-25", help="北京时间日期")
     parser.add_argument("--plot-days", type=int, default=7)
     parser.add_argument("--power-tolerance", type=float, default=0.01, help="筛查阈值MW，不是删除规则")
@@ -230,7 +247,7 @@ def main():
         save_csv(frame, folder / name)
     summary = {
         "station": args.station, "source": str(args.zip.resolve()),
-        "source_sha256": hashlib.sha256(args.zip.read_bytes()).hexdigest(),
+        "source_sha256": source_sha256(args.zip, args.station),
         "source_columns": list(raw.columns), "rows": len(data), "unique_timestamps": len(unique),
         "source_sorted": bool(times.is_monotonic_increasing),
         "duplicate_extra_rows": int(data["time_local"].duplicated().sum()),
@@ -252,8 +269,8 @@ def main():
     }
     (folder / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
     lines = [f"# 第一问数据检查：{args.station}", "",
-             "本报告由src/q1_check_data.py生成。原始ZIP不修改；本次只检查和标记，不填补、不删行。", "",
-             f"- 输入：docs/PVODdatasets_v1.0.zip内{args.station}.csv及metadata.csv。",
+             "本报告由src/q1_check_data.py生成。原始数据不修改；本次只检查和标记，不填补、不删行。", "",
+             f"- 输入：{args.zip}中的{args.station}.csv及metadata.csv。",
              f"- 时间：{summary['start_local']}至{summary['end_local']}，北京时间。",
              f"- {len(data)}条记录，{len(unique)}个唯一时间戳；重复多余行{summary['duplicate_extra_rows']}条，缺失时间点{len(gaps)}个。",
              f"- 覆盖{len(daily)}日，其中{summary['complete_96_point_days']}日有96个唯一时间点。",
