@@ -32,8 +32,8 @@
     "src/q1_clean_data.py": "eb7d4541eadf1d2ceb068a43e05c766cec838f79383f2ef6d84bfeaf4219942e",
     "src/q1_reference_power.py": "f8e054db115266df9fae5543885b8ba756f81ee8469e1a5b5ec7119e2ddbefcb",
     "src/q1_characteristics.py": "31f02d9e7ef6eaaa835d08e63c51b1076104caf1dd3304d4afeb2beefc504fc9",
-    "src/build_q1_station08_report.py": "e9b6fd4118fd30ae689653810469dca35eb543559c70276c38a1e559ae77188f"
+    "src/build_q1_station08_report.py": "890139e490cfebb69cd9450bda49634b193f5ff548771cbd467e48442bd736ba"
   },
-  "draft_sha256": "5b815968d3546ebafa26976ef962f346fa4f770d2e51928feb744c900239018a",
+  "draft_sha256": "5821a3413ac76f588d0fa21b2beb67661bad360ea03d424828d00a7b5fe95cd0",
   "status": "练习审阅稿，设备及采样口径仍待核实"
 }

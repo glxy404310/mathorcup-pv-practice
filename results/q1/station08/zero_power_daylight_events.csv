@@ -1,6 +1,0 @@
-﻿source_csv_row,time_local,power_clean,lmd_totalirrad_clean,power_change_15min_mw,irradiance_change_15min_wm2,valid_power_pair,both_points_daylight,valid_daylight_weather_power_pair,abs_change_mw
-4170,2018-08-13 10:00:00+08:00,0.0,528,0.0,421.0,True,True,True,0.0
-4171,2018-08-13 10:15:00+08:00,0.0,602,0.0,74.0,True,True,True,0.0
-4196,2018-08-13 16:30:00+08:00,0.0,379,0.0,99.0,True,True,True,0.0
-4195,2018-08-13 16:15:00+08:00,0.0,280,0.0,-276.0,True,True,True,0.0
-4194,2018-08-13 16:00:00+08:00,0.0,556,0.0,-4.0,True,True,True,0.0

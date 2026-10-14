@@ -1,4 +1,4 @@
-"""汇总station08第一问重跑，按共同完整日比较station01，保留原论文。"""
+"""汇总station08第一问重跑，按共同完整日比较station01，生成当前对比稿。"""
 import hashlib
 import json
 
@@ -83,7 +83,6 @@ def main():
     assert hashlib.sha256(rules.read_bytes()).hexdigest() == c['rules_sha256']
     assert hashlib.sha256(assumptions.read_bytes()).hexdigest() == r['assumptions_sha256']
     assert a['source_sha256'] == c['source_sha256'] == r['source_zip_sha256']
-    (folder / 'q1_cleaning_rules_snapshot.json').write_bytes(rules.read_bytes())
     monthly = pd.read_csv(folder / 'monthly_characteristics.csv')
     seasonal = pd.read_csv(folder / 'seasonal_characteristics.csv')
     sensitivity = pd.read_csv(folder / 'reference_sensitivity.csv')
@@ -92,7 +91,7 @@ def main():
     h, low = ch['monthly_highest'], ch['monthly_lowest']
     text = rf'''# 第一问重跑与站点对比：station08
 
-整理日期：2026-10-13。沿用昨日第一问的模型和统计口径，station01正文和结果保留。
+整理日期：2026-10-13。沿用第一问的模型和统计口径；station01仅保留对比复现必需的数据和结果，当前正文以station08为主。
 
 ## 1 数据与清洗
 
@@ -166,7 +165,6 @@ station08在当前规则下没有station01的深夜多字段持值问题，强�
 '''
     draft = ROOT / 'paper/第一问_station08重跑与对比.md'
     draft.write_text(text, encoding='utf-8')
-    (folder / '重跑与对比摘要.md').write_text(text.replace('../figures/', '../../../figures/'), encoding='utf-8')
     inputs = [ROOT / 'data/PVOD/metadata.csv', ROOT / 'data/PVOD/station08.csv', rules, assumptions]
     for station in stations:
         for name in ('summary.json', 'cleaning_summary.json', 'reference_summary.json', 'characteristics_summary.json', 'daily_characteristics.csv'):
