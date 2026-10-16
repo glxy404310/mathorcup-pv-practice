@@ -1,0 +1,4 @@
+# Optional Word generation; install separately from the modeling environment.
+python-docx>=1.1,<2
+latex2mathml==3.81.1
+mathml2omml==0.0.2
