@@ -1,0 +1,436 @@
+{
+  "hashes_match": {
+    "src/q234_forecast.py": true,
+    "data/processed/station08_q1_clean.csv": true,
+    "data/PVOD/metadata.csv": true,
+    "docs/q1_reference_assumptions_station08.json": true,
+    "docs/B题 光伏电站发电功率日前预测问题.pdf": true,
+    "docs/附件1 误差分析方法.pdf": true,
+    "requirements.txt": true,
+    "requirements-lock.txt": true,
+    "src/q1_check_data.py": true,
+    "src/q1_reference_power.py": true,
+    "results/q1/station08/cleaning_summary.json": true,
+    "results/q1/station08/reference_summary.json": true,
+    "docs/q1_cleaning_rules_station08.json": true,
+    "tests/test_q234_forecast.py": true
+  },
+  "n_targets": 2688,
+  "n_daylight": 1346,
+  "independent_metrics": [
+    {
+      "protocol": "forward",
+      "model": "persistence",
+      "nRMSE": 0.1729111904382224,
+      "nMAE": 0.11822595237741455,
+      "nME": 0.0911201662704309,
+      "r": 0.8125744513395389,
+      "CR": 82.70888095617777,
+      "QR": 83.95245170876672
+    },
+    {
+      "protocol": "forward",
+      "model": "climatology",
+      "nRMSE": 0.11991678594256533,
+      "nMAE": 0.08489367489965459,
+      "nME": -0.023776649732251406,
+      "r": 0.8499437530975582,
+      "CR": 88.00832140574346,
+      "QR": 94.42793462109955
+    },
+    {
+      "protocol": "forward",
+      "model": "physical",
+      "nRMSE": 0.11843949711001205,
+      "nMAE": 0.08695887471236512,
+      "nME": -0.01515435264284325,
+      "r": 0.8543349213147259,
+      "CR": 88.1560502889988,
+      "QR": 94.87369985141159
+    },
+    {
+      "protocol": "forward",
+      "model": "hist_tree",
+      "nRMSE": 0.1402865020309656,
+      "nMAE": 0.09927623080391497,
+      "nME": 0.06697038114652941,
+      "r": 0.8384462921534103,
+      "CR": 85.97134979690344,
+      "QR": 90.34175334323923
+    },
+    {
+      "protocol": "forward",
+      "model": "nwp_tree",
+      "nRMSE": 0.10857895486822451,
+      "nMAE": 0.07466321602528257,
+      "nME": 0.024494401423742672,
+      "r": 0.8816685213781065,
+      "CR": 89.14210451317754,
+      "QR": 95.61664190193166
+    },
+    {
+      "protocol": "forward",
+      "model": "nwp_radiation",
+      "nRMSE": 0.12469404434234219,
+      "nMAE": 0.08969975710098603,
+      "nME": 0.0374498578643407,
+      "r": 0.8473821082842387,
+      "CR": 87.53059556576578,
+      "QR": 92.94205052005944
+    },
+    {
+      "protocol": "forward",
+      "model": "q2_selected",
+      "nRMSE": 0.12102405900155723,
+      "nMAE": 0.08453070739817235,
+      "nME": -0.0003992078686253309,
+      "r": 0.8408178566436944,
+      "CR": 87.89759409984428,
+      "QR": 94.27934621099554
+    },
+    {
+      "protocol": "forward",
+      "model": "q3_gate",
+      "nRMSE": 0.11414484082675107,
+      "nMAE": 0.078748266933711,
+      "nME": 0.01319289669285212,
+      "r": 0.8615843289143593,
+      "CR": 88.5855159173249,
+      "QR": 94.50222882615155
+    },
+    {
+      "protocol": "forward",
+      "model": "q4_raw_control",
+      "nRMSE": 0.11475649215743716,
+      "nMAE": 0.08347402822317858,
+      "nME": 0.0163931623496921,
+      "r": 0.8604821182183672,
+      "CR": 88.52435078425628,
+      "QR": 96.35958395245171
+    },
+    {
+      "protocol": "forward",
+      "model": "q4_bias",
+      "nRMSE": 0.132867672341473,
+      "nMAE": 0.10710902531397591,
+      "nME": 0.06596825573899813,
+      "r": 0.8564980624653074,
+      "CR": 86.7132327658527,
+      "QR": 94.72511144130758
+    },
+    {
+      "protocol": "forward",
+      "model": "q4_local",
+      "nRMSE": 0.11927444414850999,
+      "nMAE": 0.08076898305315484,
+      "nME": 0.042203629294120415,
+      "r": 0.8717422241501573,
+      "CR": 88.072555585149,
+      "QR": 92.86775631500743
+    },
+    {
+      "protocol": "retrospective",
+      "model": "persistence",
+      "nRMSE": 0.1729111904382224,
+      "nMAE": 0.11822595237741455,
+      "nME": 0.0911201662704309,
+      "r": 0.8125744513395389,
+      "CR": 82.70888095617777,
+      "QR": 83.95245170876672
+    },
+    {
+      "protocol": "retrospective",
+      "model": "climatology",
+      "nRMSE": 0.11991678594256533,
+      "nMAE": 0.08489367489965459,
+      "nME": -0.023776649732251406,
+      "r": 0.8499437530975582,
+      "CR": 88.00832140574346,
+      "QR": 94.42793462109955
+    },
+    {
+      "protocol": "retrospective",
+      "model": "physical",
+      "nRMSE": 0.11843949711001205,
+      "nMAE": 0.08695887471236512,
+      "nME": -0.01515435264284325,
+      "r": 0.8543349213147259,
+      "CR": 88.1560502889988,
+      "QR": 94.87369985141159
+    },
+    {
+      "protocol": "retrospective",
+      "model": "hist_tree",
+      "nRMSE": 0.12401267424050419,
+      "nMAE": 0.09060835378254914,
+      "nME": -0.012746155411928447,
+      "r": 0.8333150018052756,
+      "CR": 87.59873257594958,
+      "QR": 93.16493313521545
+    },
+    {
+      "protocol": "retrospective",
+      "model": "nwp_tree",
+      "nRMSE": 0.10466243176261537,
+      "nMAE": 0.0728863305118671,
+      "nME": 0.004052268005104636,
+      "r": 0.8832523576471649,
+      "CR": 89.53375682373846,
+      "QR": 95.76523031203567
+    },
+    {
+      "protocol": "retrospective",
+      "model": "nwp_radiation",
+      "nRMSE": 0.11182582887628266,
+      "nMAE": 0.07916286559726526,
+      "nME": -0.0012383053489787895,
+      "r": 0.8651752446773477,
+      "CR": 88.81741711237173,
+      "QR": 95.17087667161961
+    },
+    {
+      "protocol": "retrospective",
+      "model": "q2_selected",
+      "nRMSE": 0.12102405900155723,
+      "nMAE": 0.08453070739817235,
+      "nME": -0.0003992078686253309,
+      "r": 0.8408178566436944,
+      "CR": 87.89759409984428,
+      "QR": 94.27934621099554
+    },
+    {
+      "protocol": "retrospective",
+      "model": "q3_gate",
+      "nRMSE": 0.10856625626917767,
+      "nMAE": 0.0755255545401697,
+      "nME": -0.01062500032069268,
+      "r": 0.8749584692932882,
+      "CR": 89.14337437308222,
+      "QR": 95.39375928677563
+    },
+    {
+      "protocol": "retrospective",
+      "model": "q4_raw_control",
+      "nRMSE": 0.11362874367161137,
+      "nMAE": 0.08188430521512517,
+      "nME": 0.009903618744374712,
+      "r": 0.8614987821586598,
+      "CR": 88.63712563283886,
+      "QR": 96.35958395245171
+    },
+    {
+      "protocol": "retrospective",
+      "model": "q4_bias",
+      "nRMSE": 0.11779521160431967,
+      "nMAE": 0.09089473840724496,
+      "nME": 0.0350150404092227,
+      "r": 0.8636054610825074,
+      "CR": 88.22047883956803,
+      "QR": 96.13670133729569
+    },
+    {
+      "protocol": "retrospective",
+      "model": "q4_local",
+      "nRMSE": 0.10350713336662966,
+      "nMAE": 0.07139600198220065,
+      "nME": 0.0017134364758621171,
+      "r": 0.8867243017605438,
+      "CR": 89.64928666333704,
+      "QR": 96.65676077265974
+    }
+  ],
+  "versions": {
+    "python": "3.13.15",
+    "numpy": "2.5.4",
+    "pandas": "3.0.6",
+    "sklearn": "1.9.1",
+    "pvlib": "0.16.1"
+  },
+  "audits": [
+    {
+      "training_episode_rows": 4731,
+      "unique_training_times": 2149,
+      "max_train_target": "2018-08-23T19:00:00+08:00",
+      "test_labels_in_training": 0,
+      "local_training_points": 3007,
+      "max_local_training_time": "2018-08-23T19:00:00+08:00",
+      "week": "2018-08",
+      "issue": "2018-08-24T00:00:00+08:00",
+      "validation_issue": "2018-08-16T00:00:00+08:00",
+      "validation_points": 672,
+      "validation_last_target": "2018-08-23T23:45:00+08:00",
+      "history_last_timestamp": "2018-08-23T23:45:00+08:00",
+      "q2_selected": "climatology",
+      "gate_weights": {
+        "all": 1,
+        "low": 0.5,
+        "medium": 1,
+        "high": 1
+      },
+      "tree_configs": {
+        "hist_tree": {
+          "max_leaf_nodes": 15,
+          "l2_regularization": 2.0
+        },
+        "nwp_tree": {
+          "max_leaf_nodes": 15,
+          "l2_regularization": 2.0
+        },
+        "nwp_radiation": {
+          "max_leaf_nodes": 15,
+          "l2_regularization": 2.0
+        }
+      }
+    },
+    {
+      "training_episode_rows": 13365,
+      "unique_training_times": 5828,
+      "max_train_target": "2018-11-22T17:00:00+08:00",
+      "test_labels_in_training": 0,
+      "local_training_points": 6686,
+      "max_local_training_time": "2018-11-22T17:00:00+08:00",
+      "week": "2018-11",
+      "issue": "2018-11-23T00:00:00+08:00",
+      "validation_issue": "2018-11-15T00:00:00+08:00",
+      "validation_points": 672,
+      "validation_last_target": "2018-11-22T23:45:00+08:00",
+      "history_last_timestamp": "2018-11-22T23:45:00+08:00",
+      "q2_selected": "physical",
+      "gate_weights": {
+        "all": 1,
+        "low": 1,
+        "medium": 1,
+        "high": 1
+      },
+      "tree_configs": {
+        "hist_tree": {
+          "max_leaf_nodes": 7,
+          "l2_regularization": 2.0
+        },
+        "nwp_tree": {
+          "max_leaf_nodes": 15,
+          "l2_regularization": 2.0
+        },
+        "nwp_radiation": {
+          "max_leaf_nodes": 7,
+          "l2_regularization": 2.0
+        }
+      }
+    },
+    {
+      "training_episode_rows": 21060,
+      "unique_training_times": 9120,
+      "max_train_target": "2019-02-20T18:00:00+08:00",
+      "test_labels_in_training": 0,
+      "local_training_points": 9978,
+      "max_local_training_time": "2019-02-20T18:00:00+08:00",
+      "week": "2019-02",
+      "issue": "2019-02-21T00:00:00+08:00",
+      "validation_issue": "2019-02-13T00:00:00+08:00",
+      "validation_points": 672,
+      "validation_last_target": "2019-02-20T23:45:00+08:00",
+      "history_last_timestamp": "2019-02-20T23:45:00+08:00",
+      "q2_selected": "physical",
+      "gate_weights": {
+        "all": 0.5,
+        "low": 1,
+        "medium": 0.5,
+        "high": 0
+      },
+      "tree_configs": {
+        "hist_tree": {
+          "max_leaf_nodes": 7,
+          "l2_regularization": 2.0
+        },
+        "nwp_tree": {
+          "max_leaf_nodes": 7,
+          "l2_regularization": 2.0
+        },
+        "nwp_radiation": {
+          "max_leaf_nodes": 7,
+          "l2_regularization": 2.0
+        }
+      }
+    },
+    {
+      "training_episode_rows": 31172,
+      "unique_training_times": 13462,
+      "max_train_target": "2019-05-23T19:15:00+08:00",
+      "test_labels_in_training": 0,
+      "local_training_points": 14320,
+      "max_local_training_time": "2019-05-23T19:15:00+08:00",
+      "week": "2019-05",
+      "issue": "2019-05-24T00:00:00+08:00",
+      "validation_issue": "2019-05-16T00:00:00+08:00",
+      "validation_points": 672,
+      "validation_last_target": "2019-05-23T23:45:00+08:00",
+      "history_last_timestamp": "2019-05-23T23:45:00+08:00",
+      "q2_selected": "persistence",
+      "gate_weights": {
+        "all": 1,
+        "low": 1,
+        "medium": 1,
+        "high": 1
+      },
+      "tree_configs": {
+        "hist_tree": {
+          "max_leaf_nodes": 15,
+          "l2_regularization": 2.0
+        },
+        "nwp_tree": {
+          "max_leaf_nodes": 7,
+          "l2_regularization": 2.0
+        },
+        "nwp_radiation": {
+          "max_leaf_nodes": 7,
+          "l2_regularization": 2.0
+        }
+      }
+    }
+  ],
+  "csv_columns": [
+    "起报时间",
+    "预报时间",
+    "实际功率(MW)",
+    "Q2持续性(MW)",
+    "Q2近14日气候态(MW)",
+    "Q2晴空比例(MW)",
+    "Q2历史树模型(MW)",
+    "Q3历史+NWP(MW)",
+    "Q3仅加辐照(MW)",
+    "Q2验证选优(MW)",
+    "Q3场景融合(MW)",
+    "Q4原始气象对照(MW)",
+    "Q4均值偏差订正(MW)",
+    "Q4非线性局地订正(MW)"
+  ],
+  "stored_metric_example": [
+    {
+      "protocol": "forward",
+      "model": "persistence",
+      "group_type": "overall",
+      "group": "all",
+      "n": 1346,
+      "nRMSE": 0.1729111904382224,
+      "nMAE": 0.11822595237741455,
+      "nME": 0.0911201662704309,
+      "r": 0.8125744513395389,
+      "CR_pct": 82.70888095617777,
+      "QR_pct": 83.95245170876672
+    },
+    {
+      "protocol": "forward",
+      "model": "persistence",
+      "group_type": "month",
+      "group": "2018-08",
+      "n": 364,
+      "nRMSE": 0.21091377161867833,
+      "nMAE": 0.148892578021978,
+      "nME": 0.13043849285714282,
+      "r": 0.7405477915352409,
+      "CR_pct": 78.90862283813217,
+      "QR_pct": 74.45054945054946
+    }
+  ],
+  "maximum_metric_difference": 0
+}

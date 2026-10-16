@@ -1,0 +1,11 @@
+mathml2omml-0.0.2.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
+mathml2omml-0.0.2.dist-info/LICENSE,sha256=T3LyAeEyqLpzTw1hH2dcpvytu6zEFmzDLSlpwnwzXrk,1064
+mathml2omml-0.0.2.dist-info/METADATA,sha256=MUfFo5UPdsaEwFnI-1b6_Mb_CcEbXiEONeJNZ2wN-rI,1256
+mathml2omml-0.0.2.dist-info/RECORD,,
+mathml2omml-0.0.2.dist-info/REQUESTED,sha256=47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU,0
+mathml2omml-0.0.2.dist-info/WHEEL,sha256=S8S5VL-stOTSZDYxHyf0KP7eds0J72qrK0Evu3TfyAY,92
+mathml2omml-0.0.2.dist-info/top_level.txt,sha256=x2eHr8ts8Rr3_ysh6N1tMmWx7AJnHGoggnMeBkZ3RVE,12
+mathml2omml/__init__.py,sha256=vZ3dMtLjiA5Zd85URv6V6FSpLtxXgXWQ0svGIdHyME4,31784
+mathml2omml/__pycache__/__init__.cpython-312.pyc,,
+mathml2omml/__pycache__/op_dict.cpython-312.pyc,,
+mathml2omml/op_dict.py,sha256=HiAW-6KPRzSAmwHe3QSlrMSdSYj8SjRHHBSu3m53E28,128476
