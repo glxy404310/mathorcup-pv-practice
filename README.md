@@ -9,8 +9,7 @@
 - **论文**：[PDF 终稿](paper/final/论文终稿.pdf) · [可编辑 Word](paper/final/论文终稿.docx) · [正文文本](paper/final/论文终稿.md)
 - **逐点预测**：[题目表 2](paper/final/表2_七天固定起报逐点预测.csv)，2688 条记录，功率单位 MW，时间为北京时间。
 - **数据说明**：[来源与使用口径](docs/data_sources.md) · [晴空参考模型](docs/第一问_参考功率方案.md)
-- **核验**：[数值核验记录](results/validation/final_metrics_check.json) · [初稿历史复核](docs/reviews/初稿复核记录.md)
-- **交付与格式**：[交付说明](paper/final/交付说明.md) · [论文格式规范](docs/templates/论文格式及提交规范.pdf)
+- **核验**：[数值核验记录](results/validation/final_metrics_check.json)
 
 ## 主要结果与适用范围
 
@@ -33,29 +32,24 @@ NWP 方案相对历史功率选优方案的误差下降约 10.28%，但按日期
 ## 项目结构
 
 ```text
-├── src/                  # 六个计算及结果汇总脚本
-├── tests/                # 数据清洗、参考功率及预测边界测试
-├── scripts/              # 证据核验、论文排版、支撑材料打包
+├── src/                  # 数据清洗、参考功率、特性分析与预测程序
+├── tests/                # 处理逻辑与预测边界测试
+├── scripts/              # 结果核验与支撑材料打包
 ├── data/
 │   ├── PVOD/             # 两站原始数据与完整元数据
-│   └── processed/        # 清洗表，保留原始列和标记
+│   └── processed/        # 清洗后的数据
 ├── results/
-│   ├── q1/               # 两站第一问逐点结果与汇总
-│   ├── q234/station08/   # 预测证据包与汇总图
-│   └── validation/       # 终稿数值核验记录
-├── figures/q1/           # 论文第一问图件
-├── docs/                 # 赛题、误差附件、参数和数据来源
-│   ├── templates/        # 写作模板与提交规范
-│   └── reviews/          # 历史复核记录
-├── paper/
-│   ├── final/            # 唯一终稿、逐点预测与交付说明
-│   └── layout/           # 定稿目录页码
+│   ├── q1/               # 第一问逐点结果与汇总
+│   ├── q234/station08/   # 第二至四问证据包与汇总图
+│   └── validation/       # 数值核验记录
+├── figures/q1/           # 第一问结果图
+├── docs/                 # 赛题、误差附件、处理参数与来源说明
+├── paper/final/          # 署名终稿和逐点预测表
 ├── requirements.txt      # 建模直接依赖
-├── requirements-lock.txt # 建模环境版本锁定
-└── requirements-paper.txt# 可选排版依赖
+└── requirements-lock.txt # 复现环境版本锁定
 ```
 
-`build/`、`dist/`、`.venv/` 和缓存属于本地生成目录，不纳入版本管理。支撑材料压缩包生成于 `dist/`，避免在仓库中重复保存整套数据。旧草稿、任务分工和一次性排版检查文件不再保留在当前目录，可通过 Git 历史追溯。
+`dist/`、`.venv/` 和缓存不纳入版本管理。支撑材料压缩包生成于 `dist/`，可按需重新生成。
 
 ## 环境与验证
 
@@ -99,22 +93,13 @@ OMP_NUM_THREADS=2 .venv/bin/python src/q234_forecast.py
 
 重算会覆盖相应结果、图件和自动报告，不会修改终稿。自动报告仍按计算脚本原有路径生成，已列入 `.gitignore`；研究结果变动后，需人工同步论文及重新核验。第一问输入发生变化后，应重算第二至四问以更新证据哈希。
 
-## 论文排版与交付打包
-
-现成 PDF 和 Word 可直接阅读。需要重排时，另装可选依赖：
-
-```bash
-.venv/bin/python -m pip install -r requirements-paper.txt
-.venv/bin/python scripts/build_paper.py
-```
-
-输出为 `build/paper/论文终稿.docx`，不会覆盖已验收终稿。排版脚本读取正文、模板及完整计算源程序；原排版使用 Songti SC、Heiti SC、Times New Roman 和 Menlo 字体。缺少这些字体时需配置替代字体并重新检查分页。PDF 可由 Word 或 LibreOffice 导出；目录采用已验收终稿的页码映射，修改正文后必须更新 `paper/layout/toc_pages.json` 并检查导出文件。
+## 支撑材料打包
 
 ```bash
 .venv/bin/python scripts/package_support.py
 ```
 
-打包输出 `dist/支撑材料.zip`。压缩包用于本地交付；正式提交的文件名、压缩格式及签名要求见格式规范。
+输出为 `dist/支撑材料.zip`，包含计算程序、测试、数据、参数、结果、图件和复现说明。
 
 ## 数据引用
 
